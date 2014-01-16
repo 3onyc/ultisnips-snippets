@@ -1,0 +1,28 @@
+global !p
+import string
+def get_namespace(path):
+	return '\\'.join(val for val in path if val and val[0] in string.uppercase)
+	
+def get_path_and_classname(path):
+	return path.split("/")[0:-1], path.split("/")[-1].rsplit(".")[0]
+	
+def interface_or_class(classname):
+	return 'interface' if 'Interface' in classname else 'class'
+
+def get_namespace_and_definition(path):
+	path, classname = get_path_and_classname(path)
+	definition = "%s %s" % (interface_or_class(classname), classname)
+	return get_namespace(path), definition
+
+def get_clsfile_return(path):
+	namespace, definition = get_namespace_and_definition(path)
+	return definition if not namespace else "namespace %s;\n\n%s" % (namespace, definition)
+endglobal
+
+snippet clsfile "PHP Class/Interface File" !bs
+<?php
+`!p snip.rv = get_clsfile_return(path)` $1
+{
+	$0
+}
+endsnippet
