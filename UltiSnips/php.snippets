@@ -1,7 +1,14 @@
 global !p
 import string
 def get_namespace(path):
-	return '\\'.join(val for val in path if val and val[0] in string.uppercase)
+	def ns_iter(path):
+		for segment in reversed(path):
+			if segment and segment[0] in string.uppercase:
+				yield segment
+			else:
+				break
+
+	return '\\'.join(reversed(list(ns_iter(path))))
 	
 def get_path_and_classname(path):
 	return path.split("/")[0:-1], path.split("/")[-1].rsplit(".")[0]
