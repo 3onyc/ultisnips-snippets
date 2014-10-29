@@ -1,29 +1,15 @@
 global !p
-import string
-def get_namespace(path):
-	def ns_iter(path):
-		for segment in reversed(path):
-			if segment and segment[0] in string.uppercase:
-				yield segment
-			else:
-				break
-
-	return '\\'.join(reversed(list(ns_iter(path))))
-	
-def get_path_and_classname(path):
-	return path.split("/")[0:-1], path.split("/")[-1].rsplit(".")[0]
-	
-def interface_or_class(classname):
-	return 'interface' if 'Interface' in classname else 'class'
-
-def get_namespace_and_definition(path):
-	path, classname = get_path_and_classname(path)
-	definition = "%s %s" % (interface_or_class(classname), classname)
-	return get_namespace(path), definition
-
+import php_namespace_detect as nsd
 def get_clsfile_return(path):
-	namespace, definition = get_namespace_and_definition(path)
-	return definition if not namespace else "namespace %s;\n\n%s" % (namespace, definition)
+	definition = '{} {} '.format(
+		nsd.get_class_type(path), nsd.get_class_name(path)
+	)
+	namespace = nsd.get_namespace(path)
+
+	if not namespace:
+		return definition
+	else:
+		return "namespace {};\n\n{}".format(namespace, definition)
 endglobal
 
 snippet clsfile "PHP Class/Interface File" !bs
@@ -36,12 +22,12 @@ endsnippet
 
 snippet tsts "PHPUnit Tests File" !bs
 <?php
-namespace `!p snip.rv = get_namespace_and_definition(path)[0]`;
+namespace `!p snip.rv = nsd.get_namespace(path)`;
 
 use PHPUnit_Framework_TestCase;
 use Mockery as m;
 
-`!p snip.rv = get_namespace_and_definition(path)[1]` extends ${1:PHPUnit_Framework_TestCase}
+`!p snip.rv = nsd.get_class_type(path) + ' ' nsd.get_class_type(path)` extends ${1:PHPUnit_Framework_TestCase}
 {
 	public function setUp()
 	{
