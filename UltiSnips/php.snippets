@@ -28,8 +28,70 @@ endglobal
 
 snippet clsfile "PHP Class/Interface File" !bs
 <?php
-`!p snip.rv = get_clsfile_return(path)` $1
+`!p snip.rv = get_clsfile_return(path)`$1
 {
 	$0
+}
+endsnippet
+
+snippet tsts "PHPUnit Tests File" !bs
+<?php
+namespace `!p snip.rv = get_namespace_and_definition(path)[0]`;
+
+use PHPUnit_Framework_TestCase;
+use Mockery as m;
+
+`!p snip.rv = get_namespace_and_definition(path)[1]` extends ${1:PHPUnit_Framework_TestCase}
+{
+	public function setUp()
+	{
+		$0
+	}
+
+	public function tearDown()
+	{
+		m::close();
+	}
+}
+endsnippet
+
+snippet irepofn "Repository Interface Functions" !bs
+public function findAll();
+public function find($id);
+public function create($1);
+public function update($1);
+public function save($1);
+endsnippet
+
+snippet clsrepofn "Repository Class Functions" !bs
+public function findAll()
+{
+	throw new \Exception("Not implemented");
+}
+
+public function find($id)
+{
+	throw new \Exception("Not implemented");
+}
+
+public function create($1)
+{
+	throw new \Exception("Not implemented");
+}
+
+public function update($1)
+{
+	throw new \Exception("Not implemented");
+}
+
+public function save($1)
+{
+	throw new \Exception("Not implemented");
+}
+endsnippet
+
+snippet _c "Constructor" !bs
+public function __construct($1)
+{
 }
 endsnippet
