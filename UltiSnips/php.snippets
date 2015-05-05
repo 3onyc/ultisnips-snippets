@@ -10,11 +10,22 @@ def get_clsfile_return(path):
 		return definition
 	else:
 		return "namespace {};\n\n{}".format(namespace, definition)
+
+def full_path():
+	return vim.current.buffer.name
 endglobal
+
+snippet ns "PHP Namespace" !bs
+namespace `!p snip.rv = nsd.get_namespace(full_path())`;
+endsnippet
+
+snippet _ns "Inline PHP Namespace" !s
+`!p snip.rv = nsd.get_namespace(full_path())`
+endsnippet
 
 snippet clsfile "PHP Class/Interface File" !bs
 <?php
-`!p snip.rv = get_clsfile_return(path)`$1
+`!p snip.rv = get_clsfile_return(full_path())`$1
 {
 	$0
 }
@@ -22,12 +33,12 @@ endsnippet
 
 snippet tsts "PHPUnit Tests File" !bs
 <?php
-namespace `!p snip.rv = nsd.get_namespace(path)`;
+namespace `!p snip.rv = nsd.get_namespace(full_path())`;
 
 use PHPUnit_Framework_TestCase;
 use Mockery as m;
 
-`!p snip.rv = nsd.get_class_type(path) + ' ' nsd.get_class_type(path)` extends ${1:PHPUnit_Framework_TestCase}
+`!p snip.rv = nsd.get_class_type(full_path()) + ' ' + nsd.get_class_name(full_path())` extends ${1:PHPUnit_Framework_TestCase}
 {
 	public function setUp()
 	{
