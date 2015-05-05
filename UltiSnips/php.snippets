@@ -145,3 +145,29 @@ public function __construct($1)
 	$0
 }
 endsnippet
+
+snippet cest "Codeception Cest" !bs
+<?php
+namespace `!p snip.rv = nsd.get_namespace(full_path())`;
+
+use Codeception\\Scenario;
+
+use AcceptanceTester;
+use AcceptanceTester\\$1;
+
+class `!p snip.rv = nsd.get_class_name(full_path())`
+{
+}
+endsnippet
+
+snippet cestfn "Codeception Cest Function" !bs
+/**
+ * $1
+ */
+public function $2(AcceptanceTester $I, Scenario $scenario)
+{
+	$I = new $3($scenario);
+
+	$0
+}
+endsnippet
