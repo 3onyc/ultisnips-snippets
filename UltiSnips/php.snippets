@@ -53,34 +53,86 @@ use Mockery as m;
 endsnippet
 
 snippet irepofn "Repository Interface Functions" !bs
+/**
+ * Find all $1s
+ *
+ * @return []${2:$1}
+ */
 public function findAll();
+
+/**
+ * Find a $1 by ID
+ *
+ * @param int $id
+ *
+ * @return null|$2 The $1 null when not found
+ */
 public function find($id);
-public function create($1);
-public function update($1);
-public function save($1);
+
+/**
+ * Create a new $1
+ * 
+ * @param $2 $3 $1 to create
+ * 
+ * @return bool Whether the operation succeeded
+ */ 
+public function create($2 $3);
+
+/**
+ * Update an existing $1
+ * 
+ * @param $2 $3 $1 to update
+ * 
+ * @return bool Whether the operation succeeded
+ */ 
+public function update($2 $3);
+
+/**
+ * Create or update a $1, depending on whether the primary key is set
+ * 
+ * @param $2 $3 $1 to create or update
+ * 
+ * @return bool Whether the operation succeeded
+ */ 
+public function save($2 $3);
 endsnippet
 
 snippet clsrepofn "Repository Class Functions" !bs
+/**
+ * {@inheritdoc}
+ */
 public function findAll()
 {
 	throw new \Exception("Not implemented");
 }
 
+/**
+ * {@inheritdoc}
+ */
 public function find($id)
 {
 	throw new \Exception("Not implemented");
 }
 
+/**
+ * {@inheritdoc}
+ */
 public function create($1)
 {
 	throw new \Exception("Not implemented");
 }
 
+/**
+ * {@inheritdoc}
+ */
 public function update($1)
 {
 	throw new \Exception("Not implemented");
 }
 
+/**
+ * {@inheritdoc}
+ */
 public function save($1)
 {
 	throw new \Exception("Not implemented");
